@@ -1,0 +1,27 @@
+{
+  "name": "phonebook",
+  "version": "0.0.1",
+  "description": "Simple phone book made with node.js and react",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "watch": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SNurmivaara/phonebook.git"
+  },
+  "author": "Sami Nurmivaara",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SNurmivaara/phonebook/issues"
+  },
+  "homepage": "https://github.com/SNurmivaara/phonebook#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
