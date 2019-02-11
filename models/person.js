@@ -7,35 +7,35 @@ mongoose.set('useFindAndModify', false)
 console.log('Connecting to', url)
 
 mongoose.connect(url, { useNewUrlParser: true })
-  .then(result => {
+  .then(() => {
     console.log('connected to mongoDB')
   })
   .catch((error) => {
     console.log('error connecting to mongoDB:', error.message)
   })
 
-  const personSchema = new mongoose.Schema({
-    name: {
-      type: String,
-      minlength: 3,
-      required: true,
-      unique: true
-    },
-    number: {
-      type: String,
-      minlength: 8,
-      required: true
-    }
-  })
+const personSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    minlength: 3,
+    required: true,
+    unique: true
+  },
+  number: {
+    type: String,
+    minlength: 8,
+    required: true
+  }
+})
 
-  personSchema.plugin(uniqueValidator)
+personSchema.plugin(uniqueValidator)
 
-  personSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-      returnedObject.id = returnedObject._id
-      delete returnedObject._id
-      delete returnedObject.__v
-    }
-  })
-  
+personSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
+
 module.exports = mongoose.model('Person', personSchema)

@@ -24,13 +24,13 @@ app.get('/info', (req, res) => {
   })
 })
 
-app.get('/api/persons', (req, res) =>{
+app.get('/api/persons', (req, res) => {
   Person.find({}).then(people => {
     res.json(people)
   })
 })
 
-app.get('/api/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res, next) => {
   Person.findById(req.params.id)
     .then(person => {
       if (person) {
@@ -44,7 +44,7 @@ app.get('/api/persons/:id', (req, res) => {
 
 app.put('/api/persons/:id', (req, res, next) => {
   const body = req.body
-  
+
   const person = {
     name: body.name,
     number: body.number,
@@ -59,7 +59,7 @@ app.put('/api/persons/:id', (req, res, next) => {
 
 app.delete('/api/persons/:id', (req, res, next) => {
   Person.findByIdAndRemove(req.params.id)
-    .then(result => {
+    .then(res => {
       res.status(204).end()
     })
     .catch(error => next(error))
@@ -71,7 +71,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
 
 app.post('/api/persons', (req, res, next) => {
   const body = req.body
-  
+
   if (body.name === undefined) {
     return res.status(400).json({
       error: 'name missing'
@@ -84,7 +84,7 @@ app.post('/api/persons', (req, res, next) => {
     })
   }
 
-  /* Kinda works, error handling missing. Returning here later 
+  /* Kinda works, error handling missing. Returning here later
   console.log(body.name)
   if (Person.find({ name: body.name }).count() > 0) {
     return res.status(400).json({
@@ -98,10 +98,10 @@ app.post('/api/persons', (req, res, next) => {
   })
 
   person.save()
-  .then(savedPerson => {
-    res.json(savedPerson.toJSON())
-  })
-  .catch(error => next(error))
+    .then(savedPerson => {
+      res.json(savedPerson.toJSON())
+    })
+    .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
@@ -113,7 +113,7 @@ app.use(unknownEndpoint)
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
-  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+  if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
