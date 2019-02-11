@@ -1,0 +1,7 @@
+PUT http://localhost:3001/api/persons/5c619e454fe9691b218ed008
+content-type: application/json
+
+{
+  "name": "Lemmy Kilmister",
+  "number": "123-1234567"
+}
